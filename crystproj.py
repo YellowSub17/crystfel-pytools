@@ -92,7 +92,7 @@ class CrystProj:
 
 
 # save mask
-        h5file = h5py.File(MASKFILE, 'w')
+        h5file = h5py.File(f'{self.prjdir}/{self.grpname}mask.h5', 'w')
         h5file['/mask'] = mask
         h5file['/sum'] = run_sum
         h5file['/sumsq'] = run_sumsq
