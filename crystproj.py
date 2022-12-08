@@ -76,7 +76,7 @@ class CrystProj:
  
         print(f'Summing {nframes} frames.')
         for lst_file_line_num, lst_file_line in enumerate(lst_file_lines[:nframes]):
-            print(f'{lst_file_line_num}/{len(lst_file_lines)}', end='\r')
+            print(f'{lst_file_line_num+1}/{nframes}', end='\r')
             lst_file, lst_frame = lst_file_line.split(' //')
 
             with h5py.File(lst_file, 'r') as f:
