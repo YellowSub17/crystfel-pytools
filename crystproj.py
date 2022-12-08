@@ -86,7 +86,7 @@ class CrystProj:
         # loc2 = np.where(np.isnan(run_std))
 
 # make mask
-        mask = np.zeros((EIGER_NX, EIGER_NY))
+        mask = np.zeros((eigernx, eigerny))
         mask[loc1]=1
         # mask[loc2]=1
 
