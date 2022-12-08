@@ -63,6 +63,7 @@ class CrystProj:
 
 
         lst_files = list(set(map(lambda x: x.split(' //')[0], lst_file_lines)))
+        print(lst_files)
 
 
         with h5py.File(lst_files[0], 'r') as f:
