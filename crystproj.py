@@ -65,7 +65,7 @@ class CrystProj:
         lst_files = list(set(map(lambda x: x.split(' //')[0], lst_file_lines)))
 
 
-        with h5py.File(lst_files, 'r') as f:
+        with h5py.File(lst_files[0], 'r') as f:
             _, eigernx, eigerny = f['/entry/data/data'].shape
 
         run_sum = np.zeros( (eigernx, eigerny) )
