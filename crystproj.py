@@ -74,7 +74,7 @@ class CrystProj:
         run_sumsq = np.zeros((eigernx, eigerny))
 
  
-        print(f'Summing {len(lst_file_lines)} frames.')
+        print(f'Summing {len(nframes)} frames.')
         for lst_file_line_num, lst_file_line in enumerate(lst_file_lines[:nframes]):
             print(f'{lst_file_line_num}/{len(lst_file_lines)}', end='\r')
             lst_file, lst_frame = lst_file_line.split(' //')
