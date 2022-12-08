@@ -75,8 +75,9 @@ if __name__=='__main__':
         workdir = '/beegfs/desy/user/patricka/mx2/crystfel_calc'
     )
 
-    cj.mk_proj_dir()
-    cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
+    # cj.mk_proj_dir()
+    # cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
+    cj.mk_mask()
 
 
 
