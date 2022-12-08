@@ -49,6 +49,22 @@ class CrystProj:
             for frame_num in range(n_frames):
                 lst_file.write(f'{h5_data_file} //{frame_num}\n')
 
+    def mk_mask(self,):
+
+        lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'r')
+        lst_files =  lst_file.read().split('\n')
+        lst_file.close()
+
+        for lst_file in lst_files[:10]:
+            print(lst_file.split(' //'))
+
+
+        
+
+        
+        
+        
+
 
 
 if __name__=='__main__':
@@ -61,6 +77,8 @@ if __name__=='__main__':
 
     cj.mk_proj_dir()
     cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
+
+
 
 
 
