@@ -58,7 +58,7 @@ class CrystProj:
         print(f'Making mask.')
 
         lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'r')
-        lst_file_lines =  lst_file.read().split('\n')
+        lst_file_lines =  lst_file.read().split('\n')[:-1]
         lst_file.close()
 
 
@@ -83,7 +83,7 @@ class CrystProj:
 
 
         run_mean = run_sum/len(lst_file_lines[:10])
-        run_std = np.sqrt(run_sumsq/len(lst_file_lines[:10]) - run_mean**2)
+        run_std = np.sqrt(np.abs(run_sumsq/len(lst_file_lines[:10]) - run_mean**2))
 
 
 #location where mean is high and where std is nan is where we want to mask
