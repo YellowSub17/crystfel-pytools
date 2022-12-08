@@ -30,23 +30,23 @@ class CrystProj:
 
     def mk_lst(self, glob_term, overwrite=False):
 
-    #get data filenames
-    h5_data_files = glob.glob(f'{self.datadir}/{glob_term}')
+        #get data filenames
+        h5_data_files = glob.glob(f'{self.datadir}/{glob_term}')
 
-    if (not overwrite) and os.path.exists(f'{self.prjdir}/{self.grpname}files.lst'):
-        print('WARNING: lst file exists. set overwrite=True in method to overwrite.')
-        return None
-    #open lst file object
-    lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'w')
+        if (not overwrite) and os.path.exists(f'{self.prjdir}/{self.grpname}files.lst'):
+            print('WARNING: lst file exists. set overwrite=True in method to overwrite.')
+            return None
+        #open lst file object
+        lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'w')
 
-    #for each file
-    for h5_data_file_num, h5_data_file in enumerate(h5_data_files):
-        #check how many frames are in the file
-        with h5py.File(h5_data_file, 'r') as f:
-            n_frames, _, _ = f['/entry/data/data'].shape
-        #write each frame adress to the lst file
-        for frame_num in range(n_frames):
-            lst_file.write(f'{h5_data_file} //{frame_num}\n')
+        #for each file
+        for h5_data_file_num, h5_data_file in enumerate(h5_data_files):
+            #check how many frames are in the file
+            with h5py.File(h5_data_file, 'r') as f:
+                n_frames, _, _ = f['/entry/data/data'].shape
+            #write each frame adress to the lst file
+            for frame_num in range(n_frames):
+                lst_file.write(f'{h5_data_file} //{frame_num}\n')
 
 
 
