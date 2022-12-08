@@ -84,6 +84,7 @@ class CrystProj:
 
             run_sum+=d
             run_sumsq+=d**2
+        print()
 
 
 
