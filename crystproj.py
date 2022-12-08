@@ -30,9 +30,11 @@ class CrystProj:
 
 
     def mk_lst(self, glob_term, overwrite=False):
+        print(f'Making lst file.')
 
         #get data filenames
         h5_data_files = glob.glob(f'{self.datadir}/{glob_term}')
+        print(f'Found {len(h5_data_files)} data files.')
 
         if (not overwrite) and os.path.exists(f'{self.prjdir}/{self.grpname}files.lst'):
             print('WARNING: lst file exists. set overwrite=True in method to overwrite.')
@@ -42,14 +44,18 @@ class CrystProj:
 
         #for each file
         for h5_data_file_num, h5_data_file in enumerate(h5_data_files):
+            print(f'{h5_data_file_num}/{len(h5_data_files)}', end='\r')
             #check how many frames are in the file
             with h5py.File(h5_data_file, 'r') as f:
                 n_frames, _, _ = f['/entry/data/data'].shape
             #write each frame adress to the lst file
             for frame_num in range(n_frames):
                 lst_file.write(f'{h5_data_file} //{frame_num}\n')
+        print()
 
     def mk_mask(self,):
+
+        print(f'Making mask.')
 
         lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'r')
         lst_file_lines =  lst_file.read().split('\n')
@@ -63,9 +69,9 @@ class CrystProj:
         run_sumsq = np.zeros((eigernx, eigerny))
 
  
-
-
-        for lst_file_line in lst_file_lines[:10]:
+        print(f'Summing {len(lst_file_lines)} frames.')
+        for lst_file_line_num, lst_file_line in enumerate(lst_file_lines[:10]):
+            print(f'{lst_file_line_num}/{len(lst_file_lines)}')
             lst_file, lst_frame = lst_file_line.split(' //')
 
             with h5py.File(lst_file, 'r') as f:
@@ -126,7 +132,7 @@ if __name__=='__main__':
     )
 
     # cj.mk_proj_dir()
-    # cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
+    cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
     cj.mk_mask()
 
 
