@@ -138,7 +138,7 @@ if __name__=='__main__':
 
     # cj.mk_proj_dir()
     cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
-    cj.mk_mask()
+    cj.mk_mask(nframes=20)
 
 
 
