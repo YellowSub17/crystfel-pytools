@@ -5,7 +5,7 @@
 import os
 import glob
 import h5py
-
+import numpy as np
 
 
 
@@ -52,11 +52,61 @@ class CrystProj:
     def mk_mask(self,):
 
         lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'r')
-        lst_files =  lst_file.read().split('\n')
+        lst_file_lines =  lst_file.read().split('\n')
         lst_file.close()
 
-        for lst_file in lst_files[:10]:
-            print(lst_file.split(' //'))
+
+        with h5py.File(lst_file_lines[0].split(' //'), 'r') as f:
+            _, eigernx, eigerny = f['/entry/data/data'].shape
+
+        run_sum = np.zeros( (eigernx, eigerny) )
+        run_sumsq = np.zeros((eigernx, eigerny))
+
+ 
+
+
+        for lst_file_line in lst_file_lines[:10]:
+            lst_file, lst_frame = lst_file_line.split(' //')
+
+            with h5py.File(lst_file, 'r') as f:
+                d = f['/entry/data/data'][lst_frame,:,:]
+
+            run_sum+=d
+            run_sumsq+=d**2
+
+
+
+        run_mean = run_sum/len(lst_file_lines[:10])
+        run_std = np.sqrt(run_sumsq/len(lst_file_lines[:10]) - run_mean**2)
+
+
+#location where mean is high and where std is nan is where we want to mask
+# for some reason hot pixels give div 0 error
+        loc1 = np.where(run_mean>20)
+        # loc2 = np.where(np.isnan(run_std))
+
+# make mask
+        mask = np.zeros((EIGER_NX, EIGER_NY))
+        mask[loc1]=1
+        # mask[loc2]=1
+
+
+# save mask
+        h5file = h5py.File(MASKFILE, 'w')
+        h5file['/mask'] = mask
+        h5file['/sum'] = run_sum
+        h5file['/sumsq'] = run_sumsq
+        h5file['/mean'] = run_mean
+        h5file['/std'] = run_std
+
+        h5file.close()
+
+
+
+
+
+
+
 
 
         
