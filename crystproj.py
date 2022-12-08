@@ -62,50 +62,56 @@ class CrystProj:
         lst_file.close()
 
 
-        with h5py.File(lst_file_lines[0].split(' //')[0], 'r') as f:
-            _, eigernx, eigerny = f['/entry/data/data'].shape
+        lst_files = map(lambda x: x.split(' //')[0], lst_file_lines)
 
-        run_sum = np.zeros( (eigernx, eigerny) )
-        run_sumsq = np.zeros((eigernx, eigerny))
+        lst_files = list(set(lst_files))
+
+        print(lst_files)
+
+        # with h5py.File(lst_file_lines[0].split(' //')[0], 'r') as f:
+            # _, eigernx, eigerny = f['/entry/data/data'].shape
+
+        # run_sum = np.zeros( (eigernx, eigerny) )
+        # run_sumsq = np.zeros((eigernx, eigerny))
 
  
-        print(f'Summing {len(lst_file_lines)} frames.')
-        for lst_file_line_num, lst_file_line in enumerate(lst_file_lines[:10]):
-            print(f'{lst_file_line_num}/{len(lst_file_lines)}')
-            lst_file, lst_frame = lst_file_line.split(' //')
+        # print(f'Summing {len(lst_file_lines)} frames.')
+        # for lst_file_line_num, lst_file_line in enumerate(lst_file_lines[:10]):
+            # print(f'{lst_file_line_num}/{len(lst_file_lines)}', end='\r')
+            # lst_file, lst_frame = lst_file_line.split(' //')
 
-            with h5py.File(lst_file, 'r') as f:
-                d = f['/entry/data/data'][int(lst_frame),:,:]
+            # with h5py.File(lst_file, 'r') as f:
+                # d = f['/entry/data/data'][int(lst_frame),:,:]
 
-            run_sum+=d
-            run_sumsq+=d**2
-
-
-
-        run_mean = run_sum/len(lst_file_lines[:10])
-        run_std = np.sqrt(np.abs(run_sumsq/len(lst_file_lines[:10]) - run_mean**2))
+            # run_sum+=d
+            # run_sumsq+=d**2
 
 
-#location where mean is high and where std is nan is where we want to mask
-# for some reason hot pixels give div 0 error
-        loc1 = np.where(run_mean>20)
-        # loc2 = np.where(np.isnan(run_std))
 
-# make mask
-        mask = np.zeros((eigernx, eigerny))
-        mask[loc1]=1
-        # mask[loc2]=1
+        # run_mean = run_sum/len(lst_file_lines[:10])
+        # run_std = np.sqrt(np.abs(run_sumsq/len(lst_file_lines[:10]) - run_mean**2))
 
 
-# save mask
-        h5file = h5py.File(f'{self.prjdir}/{self.grpname}mask.h5', 'w')
-        h5file['/mask'] = mask
-        h5file['/sum'] = run_sum
-        h5file['/sumsq'] = run_sumsq
-        h5file['/mean'] = run_mean
-        h5file['/std'] = run_std
+# #location where mean is high and where std is nan is where we want to mask
+# # for some reason hot pixels give div 0 error
+        # loc1 = np.where(run_mean>20)
+        # # loc2 = np.where(np.isnan(run_std))
 
-        h5file.close()
+# # make mask
+        # mask = np.zeros((eigernx, eigerny))
+        # mask[loc1]=1
+        # # mask[loc2]=1
+
+
+# # save mask
+        # h5file = h5py.File(f'{self.prjdir}/{self.grpname}mask.h5', 'w')
+        # h5file['/mask'] = mask
+        # h5file['/sum'] = run_sum
+        # h5file['/sumsq'] = run_sumsq
+        # h5file['/mean'] = run_mean
+        # h5file['/std'] = run_std
+
+        # h5file.close()
 
 
 
