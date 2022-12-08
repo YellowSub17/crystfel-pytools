@@ -69,7 +69,7 @@ class CrystProj:
             lst_file, lst_frame = lst_file_line.split(' //')
 
             with h5py.File(lst_file, 'r') as f:
-                d = f['/entry/data/data'][lst_frame,:,:]
+                d = f['/entry/data/data'][int(lst_frame),:,:]
 
             run_sum+=d
             run_sumsq+=d**2
