@@ -6,6 +6,7 @@ import os
 import glob
 import h5py
 import numpy as np
+import random
 
 
 
@@ -60,7 +61,7 @@ class CrystProj:
         lst_file = open(f'{self.prjdir}/{self.grpname}files.lst', 'r')
         lst_file_lines =  lst_file.read().split('\n')[:-1]
         lst_file.close()
-        lst_file_lines.shuffle()
+        random.shuffle(lst_file_lines)
 
         if nframes <0:
             nframes=len(lst_file_lines)
