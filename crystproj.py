@@ -33,6 +33,7 @@ class CrystProj:
 
         self.geompath = geompath
         self.maskpath = maskpath
+        self.cellpath = cellpath
 
 
 
@@ -133,7 +134,7 @@ class CrystProj:
         from writers import writer_crystfel_project
 
         s = writer_crystfel_project(self.geompath,
-                                3, 3.5, 3, 'test', 'test_merge')
+                                3, 3.5, 3, self.cellpath, 'test', 'test_merge')
         
         f = open(f'{self.prjdir}/crystfel.project', 'w')
         f.write(s)
