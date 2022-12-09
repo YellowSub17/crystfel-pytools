@@ -14,12 +14,21 @@ class CrystProj:
 
 
 
-    def __init__(self, datadir, grpname, workdir):
+    def __init__(self, datadir, grpname, workdir, geompath=None, maskpath=None):
 
         self.datadir = datadir
         self.grpname = grpname
         self.workdir =  workdir
-        self.prjdir = f'{workdir}/{grpname}'
+        self.prjdir = f'{self.workdir}/{self.grpname}'
+
+        if geompath is None:
+            geompath=f'{self.workdir}/eiger.geom'
+
+        if maskpath is None:
+            geompath=f'{self.prjdir}/mask.h5'
+
+        self.geompath = geompath
+        self.maskpath = maskpath
 
 
 
@@ -104,28 +113,43 @@ class CrystProj:
 
 
 # save mask
-        h5file = h5py.File(f'{self.prjdir}/{self.grpname}mask.h5', 'w')
+        h5file = h5py.File(f'{self.maskpath}', 'w')
         h5file['/mask'] = mask
         h5file['/sum'] = run_sum
         h5file['/sumsq'] = run_sumsq
         h5file['/mean'] = run_mean
         h5file['/std'] = run_std
+        h5file['/nframes'] = nframes
 
         h5file.close()
 
 
 
+    def make_crystfel_project_file(self):
 
+        f = open(f'{self.prjdir}/crystfel.project', 'w')
 
-
-
-
-
+        f.write(f'geom {self.geompath}\n')
+        f.write(f'search_pattern everything\n')
+        f.write(f'-----\n')
+        f.write(f'-----\n')
+        f.close()
         
+        os.system(f'cat {self.prjdir}/{self.grpname}files.lst >> {self.prjdir}/crystfel.project')
 
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -140,6 +164,7 @@ if __name__=='__main__':
     # cj.mk_proj_dir()
     cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
     cj.mk_mask(nframes=20)
+    cj.make_crystfel_project_file()
 
 
 
