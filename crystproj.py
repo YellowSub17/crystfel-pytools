@@ -130,7 +130,7 @@ class CrystProj:
 
 
     def make_crystfel_project_file(self):
-        from .writers import writer_crystfel_project
+        from writers import writer_crystfel_project
 
         s = writer_crystfel_project(self.geompath,
                                 3, 3.5, 3, 'test', 'test_merge')
@@ -169,7 +169,7 @@ if __name__=='__main__':
 
     # cj.mk_proj_dir()
     cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
-    cj.mk_mask(nframes=20)
+    cj.mk_mask(nframes=10)
     cj.make_crystfel_project_file()
 
 
