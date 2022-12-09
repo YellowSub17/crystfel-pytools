@@ -26,7 +26,7 @@ class CrystProj:
             geompath=f'{self.workdir}/eiger.geom'
 
         if maskpath is None:
-            geompath=f'{self.workdir}/mask.h5'
+            maskpath=f'{self.workdir}/mask.h5'
 
         if cellpath is None:
             cellpath=f'{self.workdir}/193l.pdb'
