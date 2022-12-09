@@ -9,7 +9,7 @@ peak_search_params.min_pix_count 2
 peak_search_params.max_pix_count 200
 peak_search_params.local_bg_radius {BGRAD}
 peak_search_params.min_res 0
-peak_search_params.max_res 2000
+peak_search_params.max_res 1500
 peak_search_params.min_snr_biggest_pix 7.000000
 peak_search_params.min_snr_peak_pix 6.000000
 peak_search_params.min_peak_over_neighbour -inf

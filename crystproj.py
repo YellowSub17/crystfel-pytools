@@ -164,13 +164,12 @@ if __name__=='__main__':
 
     cj = CrystProj(
         datadir = '/beegfs/desy/user/patricka/mx2/data',
-        grpname = '0095',
+        grpname = '0092',
         workdir = '/beegfs/desy/user/patricka/mx2/crystfel_calc'
     )
 
     cj.mk_proj_dir()
     cj.mk_lst(f'*_{cj.grpname}_data*', overwrite=True)
-    cj.mk_mask(nframes=10)
     cj.make_crystfel_project_file()
 
 
