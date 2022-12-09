@@ -14,18 +14,22 @@ class CrystProj:
 
 
 
-    def __init__(self, datadir, grpname, workdir, geompath=None, maskpath=None):
+    def __init__(self, datadir, grpname, workdir, geompath=None, maskpath=None, cellpath=None):
 
         self.datadir = datadir
         self.grpname = grpname
         self.workdir =  workdir
         self.prjdir = f'{self.workdir}/{self.grpname}'
 
+
         if geompath is None:
             geompath=f'{self.workdir}/eiger.geom'
 
         if maskpath is None:
             geompath=f'{self.prjdir}/mask.h5'
+
+        if cellpath is None:
+            cellpath=f'{self.workdir}/193l.pdb'
 
         self.geompath = geompath
         self.maskpath = maskpath
@@ -126,15 +130,17 @@ class CrystProj:
 
 
     def make_crystfel_project_file(self):
+        from .writers import writer_crystfel_project
 
-        f = open(f'{self.prjdir}/crystfel.project', 'w')
-
-        f.write(f'geom {self.geompath}\n')
-        f.write(f'search_pattern everything\n')
-        f.write(f'-----\n')
-        f.write(f'-----\n')
-        f.close()
+        s = writer_crystfel_project(self.geompath,
+                                3, 3.5, 3, 'test', 'test_merge')
         
+        f = open(f'{self.prjdir}/crystfel.project', 'w')
+        f.write(s)
+        f.close()
+
+        
+
         os.system(f'cat {self.prjdir}/{self.grpname}files.lst >> {self.prjdir}/crystfel.project')
 
 
